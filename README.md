@@ -29,11 +29,12 @@ net.bridge.bridge-nf-call-iptables=1
 net.ipv4.ip_nonlocal_bind=1
 net.ipv4.ip_forward=1
 net.ipv4.vs.conntrack=1
+#
 #Perf-Tuning:
 net.nf_conntrack_max=1048576
 net.netfilter.nf_conntrack_max=1048576
 net.netfilter.nf_conntrack_acct=0
-net.netfilter.nf_conntrack_buckets=262144                 # hashsize = nf_conntrack_max/nf_conntrack_buckets
+net.netfilter.nf_conntrack_buckets=262144          # hashsize = nf_conntrack_max/nf_conntrack_buckets
 net.netfilter.nf_conntrack_checksum=1
 net.netfilter.nf_conntrack_count=2148
 # DCCP options
@@ -46,7 +47,7 @@ net.netfilter.nf_conntrack_expect_max=1024
 #net.netfilter.nf_conntrack_log_invalid=0
 #net.netfilter.nf_conntrack_max=1048576                    # conntrack table size
 #
-#Do not answare ARP-Messages only needed on Real-Servers in Direct-Retourn-Mode (DR)
+#Do not answare ARP-Messages, only needed on Real-Servers in Direct-Retourn-Mode (DR)
 #net.ipv4.conf.${INTERFACE:-eth0}.arp_ignore=1
 #net.ipv4.conf.${INTERFACE:-eth0}.arp_announce=2
 ```
