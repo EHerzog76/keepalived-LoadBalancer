@@ -6,14 +6,14 @@ Loadbalancer with keepalived in a Container
 ### The following modules must be installed:
     ipvsadm ipset socat iptables nftables
 ### Load Modules
-modprobe ip_vs
-modprobe ip_vs_rr
-modprobe ip_vs_wrr
-modprobe ip_vs_sh
-modprobe xt_ipvs
-modprobe nf_conntrack
-#Deprecated
-modprobe nf_conntrack_ipv4
+- modprobe ip_vs
+- modprobe ip_vs_rr
+- modprobe ip_vs_wrr
+- modprobe ip_vs_sh
+- modprobe xt_ipvs
+- modprobe nf_conntrack
+- #Deprecated
+- modprobe nf_conntrack_ipv4
 ### sysctl - settings
 #0 - No source validation.
 #1 - Strict mode as defined in RFC3704 Strict Reverse Path
