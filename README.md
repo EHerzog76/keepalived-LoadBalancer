@@ -71,7 +71,7 @@ environment:
 #### Syntax of VIRTUAL_IP:
 VIP1:Port;VIP2:Port;VIP3:Port;...
 #### Syntax of REAL_IP:
-==== VIP1 Backend-Servers ======================   ;   === VIP2 Backend-Server =============================<br>
+==== VIP1 Backend-Servers ==================   ;   === VIP2 Backend-Server =============================<br>
 Backend-Server-IP1:Port,Backend-Server-IP2:Port,...;Backend-Server-IP1:Port,Backend-Server-IP2:Port,...<br>
 
 ```sh
