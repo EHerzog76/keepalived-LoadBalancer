@@ -1,0 +1,36 @@
+# vim: noai:ts=2:sw=2:expandtab
+#
+#
+version: "3.8"
+services:
+  keepalived:
+    image: keepalived:latest
+    container_name: keepalived
+    hostname: lb1.yourdomain.local
+    #ports:
+    #  - 8000:80
+    restart: unless-stopped    #always
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      # - NET_BROADCAST
+      # - SYS_ADMIN
+    network_mode: host
+    environment:
+      #- INTERFACE=eth0
+      - LBMode=main
+      - VIRTUAL_ROUTER_ID=51
+      - PRIORITY=200
+      - PASSWORD=LBVrrpPwd
+      - LB_KIND=NAT
+      - LB_ALGO=rr
+      - "VIRTUAL_IP=10.0.2.200:80;10.0.2.201:81"
+      - "REAL_IP=10.0.0.120:80,10.0.0.121:80;10.0.0.121:8080,10.0.0.121:8080"
+      #- "VIRTUAL_IP=10.255.2.250:80"
+      #- "REAL_IP=192.168.249.20:22,192.168.249.26:22"
+    #volumes:
+    #  - /Containers/keepalived/data:/etc/keepalived
+
+#networks:
+#  frontend: {}
