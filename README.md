@@ -51,3 +51,23 @@ net.netfilter.nf_conntrack_expect_max=1024
 #net.ipv4.conf.${INTERFACE:-eth0}.arp_ignore=1
 #net.ipv4.conf.${INTERFACE:-eth0}.arp_announce=2
 ```
+## Run in a container
+### Edit the ```compose.yaml``` for your needs:
+```
+environment:
+      # Will be auto detected if not set
+      #- INTERFACE=eth0
+      # LBMode    main or backup
+      - LBMode=main
+      - VIRTUAL_ROUTER_ID=51
+      - PRIORITY=200
+      - PASSWORD=LBVrrpPwd
+      - LB_KIND=NAT
+      # LB_ALGO: rr|wrr|lc|wlc|lblc|sh|mh|dh|fo|ovf|lblcr|sed|nq
+      - LB_ALGO=rr
+      - "VIRTUAL_IP=10.0.2.200:80;10.0.2.201:81"
+      - "REAL_IP=10.0.0.120:80,10.0.0.121:80;10.0.0.121:81,10.0.0.121:88"
+```
+```sh
+docker compose up -d
+```
