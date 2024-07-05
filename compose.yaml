@@ -4,7 +4,7 @@
 version: "3.8"
 services:
   keepalived:
-    image: keepalived:latest
+    image: eherzog/keepalived:latest
     container_name: keepalived
     hostname: lb1.yourdomain.local
     #ports:
