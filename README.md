@@ -68,6 +68,11 @@ environment:
       - "VIRTUAL_IP=10.0.2.200:80;10.0.2.201:81"
       - "REAL_IP=10.0.0.120:80,10.0.0.121:80;10.0.0.121:81,10.0.0.121:88"
 ```
+#### Syntax of VIRTUAL_IP:
+VIP1:Port;VIP2:Port;VIP3:Port;...
+#### Syntax of REAL_IP:
+VIP1-Backend-Server-IP1:Port,Backend-Server-IP2:Port,...;VIP2-Backend-Server-IP1:Port,Backend-Server-IP2:Port,...
+
 ```sh
 docker compose up -d
 ```
