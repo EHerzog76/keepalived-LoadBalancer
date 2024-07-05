@@ -15,6 +15,7 @@ Loadbalancer with keepalived in a Container
 - #Deprecated
 - modprobe nf_conntrack_ipv4
 ### sysctl - settings
+```
 #0 - No source validation.
 #1 - Strict mode as defined in RFC3704 Strict Reverse Path
 #2 - Loose mode as defined in RFC3704 Loose Reverse Path
@@ -45,3 +46,4 @@ net.netfilter.nf_conntrack_expect_max=1024
 #Do not answare ARP-Messages only needed on Real-Servers in Direct-Retourn-Mode (DR)
 #net.ipv4.conf.${INTERFACE:-eth0}.arp_ignore=1
 #net.ipv4.conf.${INTERFACE:-eth0}.arp_announce=2
+```
