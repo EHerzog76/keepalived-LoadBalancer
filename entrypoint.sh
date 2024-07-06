@@ -1,10 +1,11 @@
 #!/bin/bash
 
 #set -ux
-set -u
+#set -u
 
 pid=0
 declare -a IPTNrs=()
+IPTEntries=()
 colorblack='\033[30m'
 colorred='\033[31m'
 colorgreen='\033[32m'
@@ -23,13 +24,25 @@ term_handler() {
     pid=0
   fi
 
-  for (( idx=${#IPTNrs[@]}-1 ; idx>=0 ; idx-- )) ; do
-    Nr=(${IPTNrs[idx]})
-    for (( idn=${#Nr[@]}-1 ; idn>=0 ; idn-- )) ; do
-      echo -e "iptables -t nat -D POSTROUTING ${Nr[idn]}"
-      iptables -t nat -D POSTROUTING ${Nr[idn]}
+  #for (( idx=${#IPTNrs[@]}-1 ; idx>=0 ; idx-- )) ; do
+  #  Nr=(${IPTNrs[idx]})
+  #  for (( idn=${#Nr[@]}-1 ; idn>=0 ; idn-- )) ; do
+  #    echo -e "iptables -t nat -D POSTROUTING ${Nr[idn]}"
+  #    iptables -t nat -D POSTROUTING ${Nr[idn]}
+  #  done
+  #done
+  echo "Deleting ${#IPTEntries[@]} entries from iptables -t nat -L POSTROUTING -n"
+  for ipe in ${IPTEntries[@]}
+  do
+    VIPort=(${ipe//:/ })
+    echo "iptables -L POSTROUTING -t nat --line-numbers -n | grep \"vaddr ${VIPort[0]} vport ${VIPort[1]}\""
+    IPTNrs=(`iptables -L POSTROUTING -t nat --line-numbers -n | grep "vaddr ${VIPort[0]} vport ${VIPort[1]}" | sed -nr 's/^([0-9]+) .*/\1/p'`)
+    for (( idx=${#IPTNrs[@]}-1 ; idx>=0 ; idx-- )) ; do
+      echo -e "iptables -t nat -D POSTROUTING ${IPTNrs[idx]}"
+      iptables -t nat -D POSTROUTING ${IPTNrs[idx]}
     done
   done
+
   exit 143; # 128 + 15 -- SIGTERM
 }
 # setup handlers
@@ -202,9 +215,14 @@ if [ "$LB_KIND" = "NAT" ]; then
 #Add Source-NAT for this VIP:Port
 echo -e "iptables -t nat -A POSTROUTING -m ipvs --vaddr ${VIP[0]}/32 --vport ${VIP[1]} -j MASQUERADE"
 iptables -t nat -A POSTROUTING -m ipvs --vaddr ${VIP[0]}/32 --vport ${VIP[1]} -j MASQUERADE
+#
+#Save only VIP and VIP-Port for later use:
+IPTEntries[${VIPCounter}]="${VIP[0]}:${VIP[1]}"
+echo "${VIPCounter}: ${IPTEntries[VIPCounter]} Saved."
 
-IPTNr=(`iptables -vL POSTROUTING -t nat --line-numbers | grep "vaddr ${VIP[0]} vport ${VIP[1]}" | sed -nr 's/^([0-9]+) .*/\1/p'`)
-IPTNrs[${VIPCounter}]=${IPTNr[@]}
+#Save for later use:
+#IPTNr=(`iptables -L POSTROUTING -t nat --line-numbers -n | grep "vaddr ${VIP[0]} vport ${VIP[1]}" | sed -nr 's/^([0-9]+) .*/\1/p'`)
+#IPTNrs[${VIPCounter}]=${IPTNr[@]}
 fi
 
 let VIPCounter++
