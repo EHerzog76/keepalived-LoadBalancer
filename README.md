@@ -86,11 +86,11 @@ ip addr list
 
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
     link/ether 74:5d:21:ff:88:aa brd ff:ff:ff:ff:ff:ff
-    inet 10.0.2.2/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s31f6
+    inet 10.0.2.2/24 brd 10.0.2.255 scope global dynamic noprefixroute eth0
        valid_lft 546946sec preferred_lft 546946sec
-    inet 10.0.2.200/32 scope global enp0s31f6vip:51                  <=== VIP of Loadbalancer
+    inet 10.0.2.200/32 scope global eth0vip:51                  <=== VIP of Loadbalancer
        valid_lft forever preferred_lft forever
-    inet 10.0.2.201/32 scope global enp0s31f6vip:51                  <=== VIP of Loadbalancer
+    inet 10.0.2.201/32 scope global eth0vip:51                  <=== VIP of Loadbalancer
        valid_lft forever preferred_lft forever
     inet6 fe80::647e:5d24:539f:caf5/64 scope link noprefixroute 
        valid_lft forever preferred_lft forever
