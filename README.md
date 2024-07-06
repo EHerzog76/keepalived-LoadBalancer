@@ -54,6 +54,7 @@ net.netfilter.nf_conntrack_expect_max=1024
 ```
 ## Run in a container
 ### Edit the ```compose.yaml``` for your needs:
+All configuration is done with the Environment Variables.
 ```
 environment:
       # Will be auto detected if not set
