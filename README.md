@@ -109,7 +109,7 @@ TCP  10.0.2.201:80 rr persistent 7200
   -> 10.0.0.121:88                Masq    1      0          0
 ```
 ### iptables/nftables
-With iptables we configure the source NAT for our VIP´s to the backend servers.<br>
+With iptables, we configure the source NAT for our VIP´s to the backend servers.<br>
 To view the configuration use:
 ```sh
 iptables -t nat -L POSTROUTING -n
