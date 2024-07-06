@@ -1,5 +1,6 @@
 # keepalived-LoadBalancer
-Loadbalancer with keepalived in a Container
+Loadbalancer with keepalived in a Container.<br>
+No haproxy configuration is needed !
 
 # Installation
 ## Prerequisites for the Linux base hosts
@@ -110,6 +111,7 @@ TCP  10.0.2.201:80 rr persistent 7200
 ```
 ### iptables/nftables
 With iptables, we configure the source NAT for our VIP´s to the backend servers.<br>
+This is the reason, why we need no haproxy configuration.<br>
 To view the configuration use:
 ```sh
 iptables -t nat -L POSTROUTING -n
