@@ -2,7 +2,21 @@
 #https://github.com/NeoAssist/docker-keepalived/blob/master/docker-keepalived/keepalived.sh
 #
 FROM debian:stable-slim
-LABEL org.opencontainers.image.authors="Erwin Herzog <e.herzog76@live.de>"
+
+ARG BUILD_DATE
+#ARG VCS_REF
+ARG VERSION
+
+LABEL org.opencontainers.image.authors="Erwin Herzog <e.herzog76@live.de>" \
+      architecture="x86_64"                       \
+      build-date="$BUILD_DATE"                    \
+      license="MIT"                               \
+      name="eherzog/keepalived"                   \
+      summary="Alpine based keepalived container" \
+      version="$VERSION"                          \
+      vcs-type="git"                              \
+      vcs-url="https://github.com/EHerzog76/keepalived-LoadBalancer"
+#      vcs-ref="$VCS_REF"
 
 ENV KEEPALIVED_VERSION=2.3.1 \
     TZ=Europe/Vienna \
@@ -19,7 +33,7 @@ ENV KEEPALIVED_VERSION=2.3.1 \
 #ENV NOTIFY_SCRIPT_PATH=/etc/keepalived/notify.sh
 
 #keepalived=${KEEPALIVED_VERSION}
-# tini
+#tini
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y keepalived ipvsadm ipset socat iptables nftables && \
     apt-get clean && \
