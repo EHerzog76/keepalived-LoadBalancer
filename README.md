@@ -77,3 +77,45 @@ Backend-Server-IP1:Port,Backend-Server-IP2:Port,...;Backend-Server-IP1:Port,Back
 ```sh
 docker compose up -d
 ```
+## Background Informations
+### keepalived
+With keepalived the main and optional the backup Loadbalancer will be started.<br>
+Use following commands to view what happens:
+```sh
+ip addr list
+
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 74:5d:21:ff:88:aa brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.2/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s31f6
+       valid_lft 546946sec preferred_lft 546946sec
+    inet 10.0.2.200/32 scope global enp0s31f6vip:51                  <=== VIP of Loadbalancer
+       valid_lft forever preferred_lft forever
+    inet 10.0.2.201/32 scope global enp0s31f6vip:51                  <=== VIP of Loadbalancer
+       valid_lft forever preferred_lft forever
+    inet6 fe80::647e:5d24:539f:caf5/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+```
+```sh
+ipvsadm -Ln
+
+IP Virtual Server version 1.2.1 (size=4096)
+Prot LocalAddress:Port Scheduler Flags
+  -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
+TCP  10.0.2.200:80 rr persistent 7200
+  -> 10.0.0.120:80                Masq    1      0          0         
+  -> 10.0.0.121:80                Masq    1      0          0         
+TCP  10.0.2.201:80 rr persistent 7200
+  -> 10.0.0.121:81                Masq    1      0          0
+  -> 10.0.0.121:88                Masq    1      0          0
+```
+### iptables/nftables
+With iptables we configure the source NAT for our VIP´s to the backend servers.<br>
+To view the configuration use:
+```sh
+iptables -t nat -L POSTROUTING -n
+
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination         
+MASQUERADE  all  --  0.0.0.0/0            0.0.0.0/0            vaddr 10.0.2.200 vport 80
+MASQUERADE  all  --  0.0.0.0/0            0.0.0.0/0            vaddr 10.0.2.201 vport 80
+```
