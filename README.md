@@ -122,3 +122,10 @@ target     prot opt source               destination
 MASQUERADE  all  --  0.0.0.0/0            0.0.0.0/0            vaddr 10.0.2.200 vport 80
 MASQUERADE  all  --  0.0.0.0/0            0.0.0.0/0            vaddr 10.0.2.201 vport 80
 ```
+To view connections use:
+```sh
+conntrack -j -L
+
+tcp      6 431983 ESTABLISHED src=10.0.2.200 dst=10.0.2.200 sport=58252 dport=80 src=10.0.0.120 dst=10.0.0.2 sport=80 dport=58252 [ASSURED] mark=0 use=1
+conntrack v1.4.6 (conntrack-tools): 1 flow entries have been shown.
+```
