@@ -54,7 +54,7 @@ trap 'kill ${!}; term_handler' SIGTERM SIGINT
 # set localtime
 #ln -sf /usr/share/zoneinfo/$LOCALTIME /etc/localtime
 
-function replace_vars() {
+replace_vars() {
   eval "cat <<EOF
   $(<$2)
 EOF
